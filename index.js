@@ -3,11 +3,19 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AnnualCumulativeView from './AnnualCumulativeView.js';
+import './site.css';
+
+const spUrl = "http://ull:2314/SolarPanelAPI/"
+
 
 const dashboard = (
-<div class="row">
-	<div class="col-md-5">
-		<AnnualCumulativeView viewname = "Annual Cumulative" url = "http://ull:2314/SolarPanelAPI/GetAnnualCumulativeView"/>
+<div class="root">
+	<div class="row">
+		<div class="col-md-12">
+			<AnnualCumulativeView 
+				viewname = "Annual Cumulative" 
+				url = {spUrl}/>
+		</div>
 	</div>
 </div>
 )

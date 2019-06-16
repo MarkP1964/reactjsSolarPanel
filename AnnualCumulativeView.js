@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import React, {Component} from 'react';
+import SetReading from  './SetReading.js';
 
 const moment = require('moment');
 
@@ -19,6 +20,7 @@ class AnnualCumulativeView extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			action : this.props.url + "GetAnnualCumulativeView",
 			error: null,
 			isLoaded: 0,
 			viewData: []
@@ -37,9 +39,8 @@ class AnnualCumulativeView extends Component {
 	}
 	
 	changeTitle = () => {
-		this.setState({viewData: []});
 		this.setState({isLoaded: 0 });
-		this.getData(this.props.url.toString());
+		this.getData(this.state.action);
 	}
 	
 	getData = url => {
@@ -59,7 +60,7 @@ class AnnualCumulativeView extends Component {
 	}
 	
 	componentDidMount() {
-		this.getData('http://ull:2314/SolarPanelAPI/GetAnnualCumulativeView');
+		this.getData(this.state.action);
 	}
 	
 
@@ -77,7 +78,7 @@ class AnnualCumulativeView extends Component {
 		<Table striped bordered hover size="sm" variant="dark">
 			<thead>
 				<tr>
-					<th colspan='13' data-toggle="tooltip" title={this.props.url}><span>{this.props.viewname}</span>{this.refreshButton()}</th>
+					<th colspan='13' data-toggle="tooltip" title={this.props.url}><span>{this.props.viewname}</span>{this.refreshButton()}<SetReading url={this.props.url}/></th>
 				</tr>
 				<tr>
 					<th>Year</th>
