@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 import './site.css';
 import './site.js';
 
@@ -14,9 +15,9 @@ class SetReading extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			action: this.props.url + "setreading",
+			action: this.props.url + "SetReading",
 			date : new Date().toDateInputValue(),
-			value: null,
+			value: 32000,
 			show: false,
 		};
 		this.handleSaveAndClose = this.handleSaveAndClose.bind(this);
@@ -47,27 +48,54 @@ class SetReading extends Component {
 			'Date': this.state.date,
 			'Reading': this.state.value,
 		});
-		
-		this.postReading(data);
+		data = {Date: this.state.date, Reading: this.state.value };
+		//this.postAjax(data);
+		this.postReading(JSON.stringify(data));
 				
+	}
+	
+	postAjax(postJson) {
+		
+		var data = JSON.stringify({
+		  "Date": "2019-06-16",
+		  "Reading": 27578.6
+		});
+
+		var xhr = new XMLHttpRequest();
+		xhr.withCredentials = true;
+
+		xhr.addEventListener("readystatechange", function () {
+		  if (this.readyState === 4) {
+			console.log(this.responseText);
+		  }
+		});
+
+		xhr.open("POST", "http://ull:2314/solarpanelapi/setreading");
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("User-Agent", "PostmanRuntime/7.15.0");
+		xhr.setRequestHeader("Accept", "*/*");
+		xhr.setRequestHeader("Cache-Control", "no-cache");
+		xhr.setRequestHeader("Postman-Token", "263ac499-3998-4c77-9af3-d1d69c5a30e9,faf32bfb-26be-4765-b726-ea4d2788e76c");
+		xhr.setRequestHeader("Host", "ull:2314");
+		xhr.setRequestHeader("accept-encoding", "gzip, deflate");
+		xhr.setRequestHeader("content-length", "46");
+		xhr.setRequestHeader("Connection", "keep-alive");
+		xhr.setRequestHeader("cache-control", "no-cache");
+
+		xhr.send(data);	
 	}
 	
 	postReading(postJson) {
 		fetch(this.state.action, {
-			method: 'POST', // *GET, POST, PUT, DELETE, etc.
-			mode: 'cors', // no-cors, cors, *same-origin
-			credentials: 'omit',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			method: 'POST',
+			headers: {'Content-Type' : 'application/json' },
 			body: postJson
 		}).then(
 			(result) => {
-				alert(result);
 				this.handleClose();
 			},
 			(error) => {
-				alert(error)
+				alert("ERROR:" + error)
 				this.handleClose();	
 			}
 		);

@@ -6,6 +6,7 @@ import AnnualCumulativeView from './AnnualCumulativeView.js';
 import './site.css';
 
 const spUrl = "http://ull:2314/SolarPanelAPI/"
+//const spUrl = "https://localhost:44316/SolarPanelAPI/"
 
 
 const dashboard = (

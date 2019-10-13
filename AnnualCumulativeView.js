@@ -38,9 +38,9 @@ class AnnualCumulativeView extends Component {
 
 	}
 	
-	changeTitle = () => {
-		this.setState({isLoaded: 0 });
-		this.getData(this.state.action);
+	changeTitle = async () => {
+		await this.setState({isLoaded: 0 });
+		await this.getData(this.state.action);
 	}
 	
 	getData = url => {
